@@ -1,0 +1,114 @@
+{
+  "schema": "aleph.submission.v1",
+  "step": 12,
+  "deploymentUrl": "https://byteback-sample-pass.vercel.app",
+  "commit": "c424d80c8d7f80dc342feef790d71db8c90fda8f",
+  "checkedAt": "2026-09-27T11:34:48.022Z",
+  "attackAttempts": [
+    {
+      "attackId": "s01-static-notes",
+      "stage": 1,
+      "expected": "/data.json 에 메모가 없음",
+      "observed": "HTTP 404, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s02-static-copy",
+      "stage": 2,
+      "expected": "다른 정적 사본 없음",
+      "observed": "HTTP 404, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s03-unauth-list",
+      "stage": 3,
+      "expected": "로그인 없는 목록 401",
+      "observed": "HTTP 401, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s03-fake-token",
+      "stage": 3,
+      "expected": "위조 토큰 401",
+      "observed": "HTTP 403, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s04-query-identity",
+      "stage": 4,
+      "expected": "쿼리 신원 무시",
+      "observed": "HTTP 401, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s04-header-identity",
+      "stage": 4,
+      "expected": "헤더 신원 무시",
+      "observed": "HTTP 401, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s05-direct-table",
+      "stage": 5,
+      "expected": "원본 주소 직접 읽기 거부",
+      "observed": "HTTP 401, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s06-unregistered",
+      "stage": 6,
+      "expected": "미등록 기기 거부",
+      "observed": "판정기 결과 deny/device_not_registered",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s07-compound",
+      "stage": 7,
+      "expected": "복합 이상 재확인",
+      "observed": "판정기 결과 step_up/step_up_required",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s08-other-zone",
+      "stage": 8,
+      "expected": "반 공지 로그인 없이 거부",
+      "observed": "HTTP 401, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s08-unknown-route",
+      "stage": 8,
+      "expected": "모르는 경로 거부",
+      "observed": "판정기 결과 deny/route_not_allowed",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s08-write-notice",
+      "stage": 8,
+      "expected": "반 공지 쓰기 거부",
+      "observed": "판정기 결과 deny/write_not_allowed",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s09-burst-read",
+      "stage": 9,
+      "expected": "조회 폭주 회수 제안",
+      "observed": "탐지 결과 propose_revocation/burst_read",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s10-restore-unauth",
+      "stage": 10,
+      "expected": "로그인 없는 복원 요청 거부",
+      "observed": "HTTP 404, 메모 본문 없음",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s11-device",
+      "stage": 11,
+      "expected": "승인 전 기기 상태",
+      "observed": "HTTP 200, 메모 본문 없음",
+      "result": "blocked"
+    }
+  ]
+}
