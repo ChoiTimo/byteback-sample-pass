@@ -2,8 +2,8 @@
   "schema": "aleph.submission.v1",
   "step": 12,
   "deploymentUrl": "https://byteback-sample-pass.vercel.app",
-  "commit": "c424d80c8d7f80dc342feef790d71db8c90fda8f",
-  "checkedAt": "2026-09-27T11:34:48.022Z",
+  "commit": "d5b47c24b213b82c7cb36c55a35915c9831568ec",
+  "checkedAt": "2026-09-27T11:52:30.079Z",
   "attackAttempts": [
     {
       "attackId": "s01-static-notes",
@@ -79,6 +79,13 @@
       "attackId": "s08-unknown-route",
       "stage": 8,
       "expected": "모르는 경로 거부",
+      "observed": "판정기 결과 deny/route_not_allowed",
+      "result": "blocked"
+    },
+    {
+      "attackId": "s08-all-notes",
+      "stage": 8,
+      "expected": "전체 메모 목록 거부",
       "observed": "판정기 결과 deny/route_not_allowed",
       "result": "blocked"
     },
