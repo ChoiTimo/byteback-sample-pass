@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>나의 자료실 (통과 표본)</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <main>
+    <h1>나의 자료실</h1>
+    <p class="lead">BYTE BACK 방어전 시험용 통과 표본입니다. 메모는 서버가 로그인과 기기 승인을 확인한 뒤에만 내려 줍니다.</p>
+
+    <section id="device" aria-live="polite">
+      <h2>이 기기의 상태</h2>
+      <p id="device-state">서버에 기기 승인 여부를 묻는 중입니다.</p>
+    </section>
+
+    <section id="notes" hidden>
+      <h2>내 메모</h2>
+      <ul id="note-list"></ul>
+    </section>
+
+    <section id="ops">
+      <h2>작전실</h2>
+      <p>아래 수치는 서버에 남은 점검 기록(artifacts/submission.json)에서 셉니다. 기록을 읽지 못하면 수치를 비워 둡니다.</p>
+      <dl id="ops-stats">
+        <dt>점검 항목</dt><dd data-k="total">-</dd>
+        <dt>막은 공격</dt><dd data-k="blocked">-</dd>
+        <dt>뚫린 공격</dt><dd data-k="failed">-</dd>
+        <dt>실행하지 않은 점검</dt><dd data-k="notRun">-</dd>
+      </dl>
+      <p id="ops-meta"></p>
+    </section>
+  </main>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

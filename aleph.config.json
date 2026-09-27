@@ -1,0 +1,12 @@
+{
+  "schema": "aleph.config.v1",
+  "step": 12,
+  "repoUrl": "https://github.com/ChoiTimo/byteback-sample-pass",
+  "originalApiUrl": "https://byteback-sample-pass.vercel.app/rest/v1/notes",
+  "restoreRoute": "/api/restore/:noteId",
+  "allowedRoutes": [
+    { "service": "notes", "method": "GET", "pathPattern": "/api/notes", "zone": "my-notes" },
+    { "service": "notes", "method": "GET", "pathPattern": "/api/notes/:id", "zone": "my-notes" },
+    { "service": "notices", "method": "GET", "pathPattern": "/api/notices", "zone": "class-notices" }
+  ]
+}

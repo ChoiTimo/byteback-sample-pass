@@ -1,0 +1,9 @@
+{
+  "name": "byteback-sample-pass",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/",
+    "check": "node scripts/bundle.mjs"
+  }
+}
