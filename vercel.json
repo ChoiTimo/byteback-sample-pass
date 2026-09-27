@@ -4,6 +4,10 @@
     {
       "source": "/rest/v1/(.*)",
       "destination": "/api/denied"
+    },
+    {
+      "source": "/notes/:id",
+      "destination": "/api/notes/:id"
     }
   ],
   "headers": [
