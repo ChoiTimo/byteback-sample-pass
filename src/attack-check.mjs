@@ -1,4 +1,4 @@
-// 1~11단계 점검: 실제 배포에 요청을 보내고, 그 응답으로 observed 를 만듭니다. 고정 문자열로 「막음」을 적지 않습니다.
+// 1~11단계 점검: 배포에 보낼 수 있는 점검은 실제 요청을 보내 그 응답으로 observed 를 만들고, 판정 규칙 점검은 판정기·탐지 규칙을 직접 실행합니다. 고정 문자열로 「막음」을 적지 않습니다.
 // 요청을 보내지 못한 점검은 result 를 not_run 으로 두고 observed 에 그 사실을 적습니다.
 import { decide } from './decider.mjs';
 import { detect } from './detect.mjs';
@@ -30,10 +30,10 @@ export async function runAttackChecks(baseUrl) {
   const out = [];
   out.push(attempt('s01-static-notes', 1, '/data.json 에 메모가 없음', await probe(base, '/data.json'), denied));
   out.push(attempt('s02-static-copy', 2, '다른 정적 사본 없음', await probe(base, '/notes.json'), denied));
-  out.push(attempt('s03-unauth-list', 3, '로그인 없는 목록 401', await probe(base, '/api/notes'), denied));
-  out.push(attempt('s03-fake-token', 3, '위조 토큰 401', await probe(base, '/api/notes', { authorization: `Bearer ${FAKE_JWT}` }), denied));
-  out.push(attempt('s04-query-identity', 4, '쿼리 신원 무시', await probe(base, `/api/notes?userId=${TEST_UUID}&role=instructor`), denied));
-  out.push(attempt('s04-header-identity', 4, '헤더 신원 무시', await probe(base, '/api/notes', { 'x-user-id': TEST_UUID, 'x-role': 'instructor' }), denied));
+  out.push(attempt('s03-unauth-list', 3, '로그인 없는 목록 401', await probe(base, '/api/my/notes'), denied));
+  out.push(attempt('s03-fake-token', 3, '위조 토큰 401', await probe(base, '/api/my/notes', { authorization: `Bearer ${FAKE_JWT}` }), denied));
+  out.push(attempt('s04-query-identity', 4, '쿼리 신원 무시', await probe(base, `/api/my/notes?userId=${TEST_UUID}&role=instructor`), denied));
+  out.push(attempt('s04-header-identity', 4, '헤더 신원 무시', await probe(base, '/api/my/notes', { 'x-user-id': TEST_UUID, 'x-role': 'instructor' }), denied));
   out.push(attempt('s05-direct-table', 5, '원본 주소 직접 읽기 거부', await probe(base, '/rest/v1/notes'), denied));
   out.push(attempt('s08-other-zone', 8, '반 공지 로그인 없이 거부', await probe(base, '/api/notices'), denied));
   out.push(attempt('s10-restore-unauth', 10, '로그인 없는 복원 요청 거부', await probe(base, `/api/restore/${TEST_UUID}`), denied));
@@ -46,6 +46,7 @@ export async function runAttackChecks(baseUrl) {
     ['s06-unregistered', 6, '미등록 기기 거부', { ...baseReq, deviceRegistered: false }, d => d.decision === 'deny'],
     ['s07-compound', 7, '복합 이상 재확인', { ...baseReq, signals: { source: 'check', region: 'foreign', network: 'unusual', hour: 3 } }, d => d.decision === 'step_up'],
     ['s08-unknown-route', 8, '모르는 경로 거부', { ...baseReq, route: 'GET /__unknown__' }, d => d.decision === 'deny'],
+    ['s08-all-notes', 8, '전체 메모 목록 거부', { ...baseReq, route: 'GET /api/notes' }, d => d.decision === 'deny'],
     ['s08-write-notice', 8, '반 공지 쓰기 거부', { ...baseReq, method: 'POST', route: 'POST /api/notices' }, d => d.decision === 'deny']
   ];
   for (const [attackId, stage, expected, req, ok] of cases) {

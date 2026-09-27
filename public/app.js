@@ -20,7 +20,7 @@ async function loadDevice() {
 }
 
 async function loadNotes() {
-  const { status, body } = await getJson('/api/notes');
+  const { status, body } = await getJson('/api/my/notes');
   if (status !== 200 || !Array.isArray(body?.notes)) {
     $('device-state').textContent = '로그인이 필요합니다. 메모는 서버가 확인한 뒤에만 보입니다.';
     return;

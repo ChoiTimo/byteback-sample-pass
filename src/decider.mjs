@@ -4,16 +4,16 @@
 export const RULE_IDS = Object.freeze(['device_registered', 'device_not_registered', 'step_up_required', 'route_not_allowed', 'write_not_allowed']);
 
 // 구역 규칙: 경로(route)별로 구역을 나눕니다. 이 표에 없는 경로는 모두 거부합니다(route_not_allowed).
-//   내 메모(my-notes): GET /notes/:id, GET /api/notes, GET /api/notes/:id. 읽기만 허용합니다.
+//   내 메모(my-notes): GET /notes/:id, GET /api/my/notes, GET /api/notes/:id. 읽기만 허용합니다.
 //   반 공지(class-notices): GET /api/notices. 읽기만 허용합니다.
 //   강사 자료(instructor-materials): 이 앱에서는 어떤 경로도 열지 않습니다. 표에 없으므로 거부됩니다.
 // 쓰기 요청(POST·PUT·PATCH·DELETE)은 구역과 관계없이 모두 거부합니다(write_not_allowed). 반 공지·강사 자료 쓰기도 여기서 막힙니다.
-// GET /api/notes 는 로그인한 본인의 메모만 돌려주는 경로입니다(서버 함수가 세션의 주인으로 거릅니다).
-// 다른 사람의 메모를 모아 여는 전체 목록 경로(예: /api/notes/all, /api/admin/notes)는 표에 없으므로 거부됩니다.
+// GET /api/my/notes 는 경로 이름대로 로그인한 본인의 메모 목록입니다. 다른 사람의 메모를 섞어 여는 목록 경로는 표에 두지 않았습니다.
+// 전체 메모 목록(GET /api/notes, /api/notes/all, /api/admin/notes 등)은 표에 없으므로 거부됩니다.
 // 메모 한 건의 주인 비교는 엔진과 서버 함수가 맡습니다. 요청 계약에 역할 값이 없으므로 역할로 구역을 여는 코드는 두지 않습니다.
 const ZONES = Object.freeze({
   'GET /notes/:id': 'my-notes',
-  'GET /api/notes': 'my-notes',
+  'GET /api/my/notes': 'my-notes',
   'GET /api/notes/:id': 'my-notes',
   'GET /api/notices': 'class-notices'
 });
