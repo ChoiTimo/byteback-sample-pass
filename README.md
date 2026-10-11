@@ -22,7 +22,7 @@ BYTE BACK 방어전 자동 판정을 시험하려고 만든 통과 목표 표본
 
 1. 설치: `git clone https://github.com/ChoiTimo/byteback-sample-pass && cd byteback-sample-pass && git checkout <검사한 커밋>`. 외부 패키지는 없습니다(Node.js 20 이상).
 2. 실행: Vercel 에 이 폴더를 배포합니다(`npx vercel --prod`). 화면은 `public/`, 서버 함수는 `api/` 입니다.
-3. 점검: 작업 내용을 커밋한 뒤, 커밋하지 않는 `bundle-notes.json`에 `{"explanation":"실제로 구현하고 확인한 내용 10자 이상","blockedAt":null}` 형식으로 설명을 적고 `npm run bundle`을 실행합니다. 실제 HEAD와 origin을 확인하고 배포에 요청을 보내 `artifacts/submission.json`을 새로 씁니다. 과거 점검 기록은 Git 이력과 `artifacts/history/`에 보존합니다.
+3. 점검: 작업 내용을 커밋한 뒤, 커밋하지 않는 `bundle-notes.json`에 `{"explanation":"실제로 구현하고 확인한 내용 10자 이상","blockedAt":null}` 형식으로 설명을 적고 `npm run bundle`을 실행합니다. 실제 HEAD와 origin을 확인하고 배포에 요청을 보내 `artifacts/submission.json`을 새로 씁니다. 이전 기록을 별도로 보관한 뒤 실행하세요. 운영 심판은 격리된 제출 사본에서 새 묶음을 만들며, 저장소에 있는 과거 영수증을 새 실행의 근거로 사용하지 않습니다.
 4. 중지: Vercel 프로젝트에서 배포를 내리거나(Instant Rollback 또는 프로젝트 일시 중지) 엔진 쪽 경로 허용을 끕니다.
 5. 복구: 검사한 커밋으로 되돌려 다시 배포합니다(`git checkout <검사한 커밋>` 뒤 `npx vercel --prod`). 복구 뒤에는 아래 「복원 뒤 재시험」을 다시 합니다.
 
