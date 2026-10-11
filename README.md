@@ -1,6 +1,6 @@
 # BYTE BACK 방어전 통과 표본 (나의 자료실)
 
-BYTE BACK 방어전 자동 판정을 시험하려고 만든 통과용 표본입니다. 1단계는 일부러 뚫린 사이트를 제출해야 하므로 이 표본은 1단계만 통과하지 못하고, 2~12단계와 XDR 보너스 1~6은 통과하도록 만들었습니다.
+BYTE BACK 방어전 자동 판정을 시험하려고 만든 통과 목표 표본입니다. 1단계는 일부러 뚫린 사이트를 제출해야 하므로 이 표본은 1단계만 통과하지 못하도록 만들었습니다. 실제 통과 여부는 제출한 커밋의 심판 결과로 확인합니다. 2026-10-11에 12단계 제출 묶음을 현재 실행 규칙에 맞췄습니다.
 
 - 배포 주소: https://byteback-sample-pass.vercel.app
 - 저장소: https://github.com/ChoiTimo/byteback-sample-pass
@@ -22,7 +22,7 @@ BYTE BACK 방어전 자동 판정을 시험하려고 만든 통과용 표본입�
 
 1. 설치: `git clone https://github.com/ChoiTimo/byteback-sample-pass && cd byteback-sample-pass && git checkout <검사한 커밋>`. 외부 패키지는 없습니다(Node.js 20 이상).
 2. 실행: Vercel 에 이 폴더를 배포합니다(`npx vercel --prod`). 화면은 `public/`, 서버 함수는 `api/` 입니다.
-3. 점검: `node scripts/bundle.mjs https://byteback-sample-pass.vercel.app <검사한 커밋>` 을 실행하면 실제 배포에 요청을 보내 `artifacts/submission.json` 을 새로 씁니다.
+3. 점검: 작업 내용을 커밋한 뒤, 커밋하지 않는 `bundle-notes.json`에 `{"explanation":"실제로 구현하고 확인한 내용 10자 이상","blockedAt":null}` 형식으로 설명을 적고 `npm run bundle`을 실행합니다. 실제 HEAD와 origin을 확인하고 배포에 요청을 보내 `artifacts/submission.json`을 새로 씁니다. 이전 기록을 별도로 보관한 뒤 실행하세요. 운영 심판은 격리된 제출 사본에서 새 묶음을 만들며, 저장소에 있는 과거 영수증을 새 실행의 근거로 사용하지 않습니다.
 4. 중지: Vercel 프로젝트에서 배포를 내리거나(Instant Rollback 또는 프로젝트 일시 중지) 엔진 쪽 경로 허용을 끕니다.
 5. 복구: 검사한 커밋으로 되돌려 다시 배포합니다(`git checkout <검사한 커밋>` 뒤 `npx vercel --prod`). 복구 뒤에는 아래 「복원 뒤 재시험」을 다시 합니다.
 
@@ -52,7 +52,8 @@ BYTE BACK 방어전 자동 판정을 시험하려고 만든 통과용 표본입�
 
 ## 점검 기록과 작전실 화면 (12단계)
 
-- `src/attack-check.mjs` 는 1~5단계, 8단계(반 공지), 10단계, 11단계 점검에서 실제 배포에 요청을 보내 응답 상태로 `observed` 를 만듭니다. 6~9단계 규칙은 판정기와 탐지 규칙을 직접 불러 그 결과를 적습니다(배포 요청이 아니라 코드 실행 결과임을 `observed` 에 밝힙니다).
+- `src/attack-check.mjs`는 실제 배포에 읽기 요청을 보내 응답 상태로 `observed`를 만듭니다. 6~9단계는 기존 `/api/checks?case=...`가 고정된 가상 입력으로 판정기·탐지 규칙을 실행합니다. 응답의 `ready`는 그 가상 조건을 충족했는지만 뜻하며, 실제 사용자 기기의 승인 상태가 아닙니다. runner가 응답을 독립 관측할 수 있도록 요청마다 `alephEvidence`에 사례와 요청 ID를 연결합니다. 이 메타데이터는 요청 헤더나 URL에 넣지 않습니다.
+- 묶음은 `aleph.defense.submission.v2`로 현재 커밋·저장소·변경 파일·구현 규칙·원문 설명·실제 점검을 기록합니다. `HTTP 403; jsonReady=false`처럼 관측 가능한 사실만 적습니다. `stage`와 `result`는 기존 화면의 요약용 자기보고이며, 심판의 실행 영수증을 대신하지 않습니다.
 - 요청을 보내지 못한 점검은 `result: "not_run"` 으로 남기고 「막음」으로 세지 않습니다.
 - 작전실 화면(`public/index.html`)은 성공 문구를 보여 주지 않고, 서버 함수 `/api/checks` 가 `artifacts/submission.json` 에서 센 수치(점검 항목·막은 공격·뚫린 공격·실행하지 않은 점검)만 보여 줍니다.
 

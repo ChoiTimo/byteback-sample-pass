@@ -29,5 +29,6 @@
       "pathPattern": "/api/notices",
       "zone": "class-notices"
     }
-  ]
+  ],
+  "publicAppUrl": "https://byteback-sample-pass.vercel.app"
 }
